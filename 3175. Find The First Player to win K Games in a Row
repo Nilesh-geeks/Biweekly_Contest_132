@@ -1,0 +1,49 @@
+Problem :: 3175. Find The First Player to win K Games in a Row
+
+A competition consists of n players numbered from 0 to n - 1.
+You are given an integer array skills of size n and a positive integer k, where skills[i] is the skill level of player i. All integers in skills are unique.
+All players are standing in a queue in order from player 0 to player n - 1.
+The competition process is as follows:
+
+The first two players in the queue play a game, and the player with the higher skill level wins.
+After the game, the winner stays at the beginning of the queue, and the loser goes to the end of it.
+The winner of the competition is the first player who wins k games in a row.
+
+Return the initial index of the winning player.
+
+Time Complexity :: O(N * log N)
+Space Complexity :: O(N)
+
+Code  :: 
+#define p pair<long long,long long>
+class Solution {
+public:
+    int findWinningPlayer(vector<int>& skills, int k) {
+        int n = skills.size();
+        if(k>n)return max_element(skills.begin() , skills.end()) - skills.begin();
+        priority_queue<p , vector<p> , greater<p>>pq;
+        for(int i=0  ;i<n ; i++){
+            pq.push({i , skills[i]});
+        }
+        auto it = pq.top();
+        pq.pop();
+        int maxi=0;
+        while(1){
+            auto next = pq.top();
+            pq.pop();
+            if(next.second<it.second){
+                pq.push({next.first+n , next.second} );
+                maxi++;
+            }
+            else{
+               pq.push({it.first+n , it.second});
+                it.first = next.first;
+                it.second = next.second;
+                maxi = 1;
+            }
+             if(maxi>=k)return it.first%n;
+            
+        }
+        return 0;
+    }
+};
