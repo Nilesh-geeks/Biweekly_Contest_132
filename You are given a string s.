@@ -1,0 +1,28 @@
+Problem :: 3174. Clear Digits
+
+You are given a string s.
+Your task is to remove all digits by doing this operation repeatedly:
+
+Delete the first digit and the closest non-digit character to its left.
+Return the resulting string after removing all digits.
+
+Time Complexity :: O(N)
+Space Complexity :: O(1)
+code :: 
+class Solution {
+public:
+    string clearDigits(string s) {
+        int n = s.length();
+        string st;
+        for(int i=0 ; i<n ;i++){
+            if(s[i]>='0' && s[i]<='9'){
+               if(st.size()>0) st.pop_back();
+            }
+            else{
+                st.push_back(s[i]);
+            }
+            
+        }
+        return st;
+    }
+};
